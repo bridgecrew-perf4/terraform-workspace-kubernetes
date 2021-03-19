@@ -19,6 +19,5 @@ provider "kubectl" {
 provider "kubernetes" {
   cluster_ca_certificate = base64decode(module.gke_main.ca_certificate)
   host                   = module.gke_main.endpoint
-  load_config_file       = false
   token                  = data.google_client_config.this.access_token
 }
