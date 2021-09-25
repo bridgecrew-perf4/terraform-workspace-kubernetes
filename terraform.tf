@@ -7,15 +7,18 @@ terraform {
     }
   }
   required_providers {
+    digitalocean = {
+      source = "digitalocean/digitalocean"
+    }
     google = {
       source = "hashicorp/google"
     }
-    helm = {
-      source = "hashicorp/helm"
-    }
-    kubectl = {
-      source = "gavinbunney/kubectl"
-    }
+    # helm = {
+    #   source = "hashicorp/helm"
+    # }
+    # kubectl = {
+    #   source = "gavinbunney/kubectl"
+    # }
   }
-  required_version = ">= 0.14"
+  required_version = ">= 1"
 }
