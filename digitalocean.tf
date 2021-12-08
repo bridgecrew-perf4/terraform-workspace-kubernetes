@@ -3,7 +3,7 @@ resource "digitalocean_kubernetes_cluster" "main" {
   name          = "main"
   region        = local.do_region
   surge_upgrade = false
-  version       = "1.21.3-do.0"
+  version       = "1.21.5-do.0"
 
   node_pool {
     auto_scale = true
