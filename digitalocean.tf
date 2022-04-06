@@ -1,19 +1,56 @@
+data "digitalocean_kubernetes_versions" "this" {
+
+}
+
 resource "digitalocean_kubernetes_cluster" "main" {
   auto_upgrade  = false
+  # ha            = true
   name          = "main"
-  region        = local.do_region
-  surge_upgrade = false
-  version       = "1.21.5-do.0"
+  region        = var.do_region
+  surge_upgrade = true
+  version       = data.digitalocean_kubernetes_versions.this.latest_version
 
   node_pool {
     auto_scale = true
     min_nodes  = 1
-    max_nodes  = 5
-    name       = "autoscale-worker-pool"
-    size       = "s-1vcpu-2gb"
+    max_nodes  = 3
+    name       = "shared-pool"
+    size       = "s-2vcpu-4gb"
 
     labels = {
-      "node_pool" = "pool-services"
+      "env" = "shared"
     }
   }
+}
+# resource "digitalocean_kubernetes_node_pool" "dev" {
+#   cluster_id = digitalocean_kubernetes_cluster.main.id
+
+#   auto_scale = true
+#   min_nodes  = 1
+#   max_nodes  = 5
+#   name       = "dev"
+#   size       = "s-1vcpu-2gb"
+
+#   labels = {
+#     "env" = "dev"
+#   }
+# }
+# resource "digitalocean_kubernetes_node_pool" "prod" {
+#   cluster_id = digitalocean_kubernetes_cluster.main.id
+
+#   auto_scale = true
+#   min_nodes  = 1
+#   name       = "prod"
+#   size       = "s-1vcpu-2gb"
+
+#   labels = {
+#     "env" = "prod"
+#   }
+# }
+
+resource "digitalocean_project_resources" "clusters" {
+  project = data.digitalocean_project.this.id
+  resources = [
+    digitalocean_kubernetes_cluster.main.urn,
+  ]
 }

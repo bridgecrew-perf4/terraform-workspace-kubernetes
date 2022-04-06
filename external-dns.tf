@@ -10,6 +10,6 @@ resource "kubernetes_secret" "external_dns" {
   }
 
   data = {
-    "digitalocean-token" = data.terraform_remote_state.project.outputs.digitalocean_token
+    "digitalocean-token" = var.do_token
   }
 }
