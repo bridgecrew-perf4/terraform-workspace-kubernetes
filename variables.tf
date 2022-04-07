@@ -1,3 +1,9 @@
+variable "argocd_repo_creds_private_key" {
+  description = "ssh key for 248-sh repositories"
+  sensitive   = true
+  type        = string
+}
+
 # from do variable set
 variable "do_region" {
   type = string
