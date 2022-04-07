@@ -22,25 +22,38 @@ resource "digitalocean_kubernetes_cluster" "main" {
     }
   }
 }
-# resource "digitalocean_kubernetes_node_pool" "dev" {
-#   cluster_id = digitalocean_kubernetes_cluster.main.id
+resource "digitalocean_kubernetes_node_pool" "monitoring" {
+  cluster_id = digitalocean_kubernetes_cluster.main.id
 
-#   auto_scale = true
-#   min_nodes  = 1
-#   max_nodes  = 5
-#   name       = "dev"
-#   size       = "s-1vcpu-2gb"
+  auto_scale = true
+  min_nodes  = 1
+  max_nodes  = 5
+  name       = "monitoring-pool"
+  size       = "s-1vcpu-2gb"
 
-#   labels = {
-#     "env" = "dev"
-#   }
-# }
+  labels = {
+    "env" = "monitoring"
+  }
+}
+resource "digitalocean_kubernetes_node_pool" "dev" {
+  cluster_id = digitalocean_kubernetes_cluster.main.id
+
+  auto_scale = true
+  min_nodes  = 1
+  max_nodes  = 5
+  name       = "dev-pool"
+  size       = "s-1vcpu-2gb"
+
+  labels = {
+    "env" = "dev"
+  }
+}
 # resource "digitalocean_kubernetes_node_pool" "prod" {
 #   cluster_id = digitalocean_kubernetes_cluster.main.id
 
 #   auto_scale = true
 #   min_nodes  = 1
-#   name       = "prod"
+#   name       = "prod-pool"
 #   size       = "s-1vcpu-2gb"
 
 #   labels = {
